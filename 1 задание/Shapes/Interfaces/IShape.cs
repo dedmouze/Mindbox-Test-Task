@@ -1,8 +1,7 @@
-﻿namespace Shapes
+﻿namespace Shapes.Interfaces
 {
     public interface IShape
     {
         double Area { get; }
-        double Perimeter { get; }
     }
 }
