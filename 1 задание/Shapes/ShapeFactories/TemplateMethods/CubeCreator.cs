@@ -14,7 +14,7 @@ namespace Shapes.ShapeFactories.TemplateMethod
         protected override void PossibilityValues()
         {
             if (_side <= 0)
-                throw new ArgumentException($"Создать куб с отрицательной стороной = {_side} невозможно");
+                throw new ArgumentException($"Куб со стороной = {_side} невозможно создать");
         }
     }
 }

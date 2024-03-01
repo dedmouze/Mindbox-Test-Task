@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shapes.Interfaces.Shape2D;
 using Shapes;
+using System.Collections.Immutable;
 
 namespace ShapeTests
 {
@@ -20,7 +21,7 @@ namespace ShapeTests
         }
 
         [TestMethod]
-        public void Get_TrianglePerimeterWithSides5_12_13_Return_30()
+        public void Get_TrianglePerimeterWithSides5_12_13_Return30()
         {
             ShapeFactory shapeFactory = new ShapeFactory();
 
@@ -44,7 +45,7 @@ namespace ShapeTests
         }
 
         [TestMethod]
-        public void Is_TriangleWithSides5_10_13Right_ReturnTFalse()
+        public void Is_TriangleWithSides5_10_13Right_ReturnFalse()
         {
             ShapeFactory shapeFactory = new ShapeFactory();
 
@@ -55,34 +56,38 @@ namespace ShapeTests
             Assert.AreEqual(expected, triangle.IsRight);
         }
 
-        [TestMethod]
-        public void Create_TriangleWithNegativeSide_ThrowsArgumentException()
+        [DataTestMethod]
+        [DataRow(-1, 5, 13)]
+        [DataRow(9, -1, 13)]
+        [DataRow(9, 5, -1)]
+        [DataRow(0, 5, 13)]
+        [DataRow(9, 0, 13)]
+        [DataRow(9, 5, 0)]
+        public void Create_TriangleWithWrongSide_ThrowsArgumentException(double a, double b, double c)
         {
             ShapeFactory shapeFactory = new ShapeFactory();
-
-            double a = 5, b = -1, c = 13;
-            Action create = () => shapeFactory.CreateTriangle(a, b, c);
-            Assert.ThrowsException<ArgumentException>(create);
+            Assert.AreEqual(
+                Assert.ThrowsException<ArgumentException>(() => shapeFactory.CreateTriangle(a, b, c)).Message,
+                $"Невозможно создать треугольник с такими сторонами {a}, {b}, {c}"
+                );
         }
 
-        [TestMethod]
-        public void Create_TriangleWithZeroSide_ThrowsArgumentException()
+        [DataTestMethod]
+        [DataRow(5, 5, 10)]
+        [DataRow(5, 10, 5)]
+        [DataRow(10, 5, 5)]
+        [DataRow(10, 5, 4)]
+        [DataRow(4, 10, 5)]
+        [DataRow(4, 5, 10)]
+        public void Create_TriangleWithImpossibleSides_ThrowsArgumentException(double a, double b, double c)
         {
             ShapeFactory shapeFactory = new ShapeFactory();
-
-            double a = 5, b = 0, c = 13;
-            Action create = () => shapeFactory.CreateTriangle(a, b, c);
-            Assert.ThrowsException<ArgumentException>(create);
-        }
-
-        [TestMethod]
-        public void Create_TriangleWithWrongSides_ThrowsArgumentException()
-        {
-            ShapeFactory shapeFactory = new ShapeFactory();
-
-            double a = 5, b = 5, c = 10;
-            Action create = () => shapeFactory.CreateTriangle(a, b, c);
-            Assert.ThrowsException<ArgumentException>(create);
+            double[] sides = { a, b, c };
+            Array.Sort(sides);
+            Assert.AreEqual(
+                Assert.ThrowsException<ArgumentException>(() => shapeFactory.CreateTriangle(a, b, c)).Message,
+                $"Такого треугольника не сущетсвует так как {sides[0]} + {sides[1]} <= {sides[2]}"
+                );
         }
     }
 }

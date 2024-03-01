@@ -28,14 +28,17 @@ namespace ShapeTests
             ICircle circle = shapeFactory.CreateCircle(radius);
             Assert.AreEqual(expected, circle.Perimeter);
         }
-        [TestMethod]
-        public void Create_CircleWithNegativeRadius_ThrowsArgumentException()
+
+        [DataTestMethod]
+        [DataRow(-1)]
+        [DataRow(0)]
+        public void Create_CircleWithWrongRadius_ThrowsArgumentException(double radius)
         {
             ShapeFactory shapeFactory = new ShapeFactory();
-
-            int radius = -1;
-            Action actual = () => shapeFactory.CreateCircle(radius);
-            Assert.ThrowsException<ArgumentException>(actual);
+            Assert.AreEqual(
+                Assert.ThrowsException<ArgumentException>(() => shapeFactory.CreateCircle(radius)).Message,
+                $"Отрицательный радиус невозможен для создания круга: {radius}"
+                );
         }
     }
 }
