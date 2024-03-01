@@ -1,5 +1,4 @@
-﻿using Shapes.Interfaces;
-using Shapes.Interfaces.Shape2D;
+﻿using Shapes.Interfaces.Shape2D;
 using Shapes.Interfaces.Shape3D;
 using Shapes.ShapeFactories.TemplateMethod;
 
@@ -7,12 +6,11 @@ namespace Shapes
 {
     public class ShapeFactory
     {
-        public ISphere CreateSphere(double radius) => Create(new SphereCreator(radius));
-        public ICube CreateCube(double side) => Create(new CubeCreator(side));
-        public ICircle CreateCircle(double radius) => Create(new CircleCreator(radius));
-        public IRectangle CreateRectangle(double width, double height) => Create(new RectangleCreator(width, height));
-        public ISquare CreateSquare(double side) => Create(new SquareCreator(side));
-        public ITriangle CreateTriangle(double sideA, double sideB, double sideC) => Create(new TriangleCreator(sideA, sideB, sideC));
-        private T Create<T>(ShapeCreator<T> shapeCreator) where T : IShape => shapeCreator.Create();
+        public ISphere CreateSphere(double radius) => (new SphereCreator(radius)).Create();
+        public ICube CreateCube(double side) => (new CubeCreator(side)).Create();
+        public ICircle CreateCircle(double radius) => (new CircleCreator(radius)).Create();
+        public IRectangle CreateRectangle(double width, double height) => (new RectangleCreator(width, height)).Create();
+        public ISquare CreateSquare(double side) => (new SquareCreator(side)).Create();
+        public ITriangle CreateTriangle(double sideA, double sideB, double sideC) => (new TriangleCreator(sideA, sideB, sideC)).Create();
     }
 }

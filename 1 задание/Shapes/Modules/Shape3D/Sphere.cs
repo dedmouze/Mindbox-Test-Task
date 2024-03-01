@@ -1,12 +1,17 @@
-﻿using Shapes.Abstractions;
-using Shapes.Interfaces.Shape3D;
+﻿using Shapes.Interfaces.Shape3D;
 
 namespace Shapes.Modules.Figure3D
 {
-    internal sealed class Sphere : Shape3D, ISphere
+    internal sealed class Sphere : ISphere
     {
+        public double Volume { get; }
         public double Radius { get; }
-        public Sphere(double radius, double volume) : base(volume) => Radius = radius;
+
+        public Sphere(double radius, double volume)
+        {
+            Volume = volume;
+            Radius = radius;
+        }
         public override string ToString()
             => $"Сфера с радиусом = {Radius} и объёмом = {Volume}";
     }
