@@ -22,7 +22,7 @@ namespace ShapeTests
         [DataTestMethod]
         [DataRow(-1)]
         [DataRow(0)]
-        public void Create_CubeWithWrongSides_ThrowsArgumentException(double side)
+        public void Create_CubeWithWrongSide_ThrowsArgumentException(double side)
         {
             ShapeFactory shapeFactory = new ShapeFactory();
             Assert.AreEqual(

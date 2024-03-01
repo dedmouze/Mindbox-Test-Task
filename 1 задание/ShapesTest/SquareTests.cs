@@ -34,7 +34,7 @@ namespace ShapeTests
         [DataTestMethod]
         [DataRow(-1)]
         [DataRow(0)]
-        public void Create_RectangleWithNegativeWidth_ThrowsArgumentException(double side)
+        public void Create_SquareWithWrongSide_ThrowsArgumentException(double side)
         {
             ShapeFactory shapeFactory = new ShapeFactory();
             Assert.AreEqual(
